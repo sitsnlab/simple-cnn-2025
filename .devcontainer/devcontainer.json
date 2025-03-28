@@ -1,0 +1,43 @@
+{
+    // 開発用コンテナの名前
+    "name": "mycnn-2025",
+
+    // 使用する Dockerfile の指定
+    "dockerFile": "Dockerfile",
+
+    // コンテナの起動時に追加するオプション
+    "runArgs": [
+        "--gpus=all",  // すべての GPU をコンテナ内で使用可能にする
+        "--shm-size=8G",  // 共有メモリのサイズを設定
+        "--memory=12G"  // コンテナの最大メモリ使用量を設定
+    ],
+
+    // 環境変数の設定（NVIDIA の GPU を使うための設定）
+    "containerEnv": {
+        "NVIDIA_VISIBLE_DEVICES": "all",  // すべての GPU を使用可能にする
+        "NVIDIA_DRIVER_CAPABILITIES": "compute,utility"  // 計算用 GPU 機能を有効化
+    },
+
+    // VSCode のカスタマイズ設定
+    "customizations": {
+        "vscode": {
+            // 自動インストールする拡張機能
+            "extensions": [
+                "ms-python.python",
+                "ms-python.vscode-pylance", 
+                "ms-python.isort",  
+                "ms-python.black-formatter"  
+            ],
+            // エディタの設定
+            "settings": {
+                "[python]": {
+                    "editor.defaultFormatter": "ms-python.black-formatter",  // Black をデフォルトのフォーマッターに設定
+                    "editor.formatOnSave": true,  // 保存時に自動フォーマット
+                    "editor.codeActionsOnSave": {
+                        "source.organizeImports": "explicit"  // 保存時に import 文を整理
+                    }
+                }
+            }
+        }
+    }
+}

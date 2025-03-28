@@ -1,0 +1,20 @@
+# データ操作ライブラリ
+numpy==2.2.3
+pandas==2.2.3
+
+# 画像処理ライブラリ
+Pillow==11.1.0
+opencv-python==4.11.0.86
+
+# モデル保存・読み込み
+h5py==3.13.0
+
+# 可視化ライブラリ
+matplotlib==3.10.1
+seaborn==0.13.2
+
+# その他
+scikit-learn==1.6.1
+scipy==1.13.1
+tqdm==4.67.1
+gdown==5.2.0
