@@ -22,14 +22,14 @@ IMAGE_DIRS = {
     "train": [
         "../data/small-places/train/wave",
         "../data/small-places/train/tower",
-        "../data/small-places/train/escalotor",
+        "../data/small-places/train/escalator",
         # "../data/small-places/train/wind_farm",
         # "../data/small-places/train/airfield",
     ],
     "test": [
         "../data/small-places/test/wave",
         "../data/small-places/test/tower",
-        "../data/small-places/test/escalotor",
+        "../data/small-places/test/escalator",
         # "../data/small-places/test/wind_farm",
         # "../data/small-places/test/airfield",
     ],
