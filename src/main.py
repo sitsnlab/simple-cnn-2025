@@ -22,11 +22,16 @@ train_loader = torch.utils.data.DataLoader(
     train_dataset, batch_size=BATCH_SIZE, shuffle=True
 )
 
+
 # テストのデータローダーの取得
 test_dataset = MyDataset(IMAGE_DIRS["test"], TRANSFORM)
 test_loader = torch.utils.data.DataLoader(
     test_dataset, batch_size=BATCH_SIZE, shuffle=False
 )
+
+# データセットのサイズを表示
+print(f"Train dataset size: {len(train_dataset)}")
+print(f"Test dataset size: {len(test_dataset)}\n")
 
 # モデルの初期化
 num_classes = len(IMAGE_DIRS["train"])
