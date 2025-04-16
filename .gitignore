@@ -1,4 +1,8 @@
-/data
-!data/README.md
+# dataフォルダの中のファイルはすべて無視する。
+/data/*
+# README.mdファイルだけは無視しない。
+!/data/README.md
+# resultsフォルダを無視する。
 /results
+# .pycファイルを全て無視する。
 *.pyc

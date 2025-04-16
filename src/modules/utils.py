@@ -74,8 +74,10 @@ def save_results_to_csv(result_dir: str, csv_columns: list) -> str:
 def save_epoch_results(
     csv_file: str,
     epoch: int,
-    running_loss: float,
+    train_loss: float,
+    test_loss: float,
     train_loader,
+    test_loader,
     train_accuracy: float,
     test_accuracy: float,
     start_time: float,
@@ -89,8 +91,10 @@ def save_epoch_results(
     Args:
         csv_file (str): 結果を保存する CSV ファイルのパス。
         epoch (int): 現在のエポック数。
-        running_loss (float): 学習時の累積損失値。
+        train_loss (float): 学習時の累積損失値。
+        test_loss (float): テスト時の累積損失値。
         train_loader: 訓練データの DataLoader（バッチ数の計算に使用）。
+        test_loader: テストデータの DataLoader（バッチ数の計算に使用）。
         train_accuracy (float): 訓練データでの精度。
         test_accuracy (float): テストデータでの精度。
         start_time (float): エポック開始時の時間（time.time() の値）。
@@ -102,7 +106,8 @@ def save_epoch_results(
         writer.writerow(
             [
                 epoch + 1,
-                running_loss / len(train_loader),
+                train_loss / len(train_loader),
+                test_loss / len(test_loader),
                 train_accuracy,
                 test_accuracy,
                 time_taken,

@@ -23,15 +23,15 @@ IMAGE_DIRS = {
         "../data/small-places/train/wave",
         "../data/small-places/train/tower",
         "../data/small-places/train/escalator",
-        # "../data/small-places/train/wind_farm",
-        # "../data/small-places/train/airfield",
+        "../data/small-places/train/wind_farm",
+        "../data/small-places/train/airfield",
     ],
     "test": [
         "../data/small-places/test/wave",
         "../data/small-places/test/tower",
         "../data/small-places/test/escalator",
-        # "../data/small-places/test/wind_farm",
-        # "../data/small-places/test/airfield",
+        "../data/small-places/test/wind_farm",
+        "../data/small-places/test/airfield",
     ],
 }
 
@@ -40,6 +40,7 @@ TRANSFORM = transforms.Compose(
     [
         transforms.Resize(IMAGE_SIZE),
         transforms.ToTensor(),
+        transforms.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5]),
     ]
 )
 

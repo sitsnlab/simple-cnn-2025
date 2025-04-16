@@ -50,18 +50,19 @@ result_dir = utils.create_result_directory()
 utils.save_config(result_dir)
 
 # 結果を保存するためのCSVファイルの初期化
-csv_columns = ["Epoch", "Loss", "Train_Accuracy", "Test_Accuracy", "time"]
+csv_columns = ["Epoch", "Train_Loss","Test_Loss", "Train_Accuracy", "Test_Accuracy", "time"]
 csv_file = utils.save_results_to_csv(result_dir, csv_columns)
 
 # 学習ループ開始
 print("Training Started!")
 
 # 最小の損失値を保持する変数
-min_running_loss = sys.float_info.max
+min_train_loss = sys.float_info.max
 
 # エポックごとの学習ループ
 for epoch in range(EPOCHS):
-    running_loss = 0.0  # エポック内の累積損失
+    train_loss = 0.0  # エポック内の累積損失
+    test_loss = 0.0 # テストデータの累積損失
     correct = 0  # 正解数カウンター
     total = 0  # サンプル数カウンター
 
@@ -83,8 +84,6 @@ for epoch in range(EPOCHS):
         loss.backward()  # 逆伝播（勾配計算）
         optimizer.step()  # パラメータの更新
 
-        running_loss += loss.item()  # 損失の累積計算
-
     # エポック終了時の時刻を記録
     epoch_end_time = datetime.datetime.now()
 
@@ -100,6 +99,7 @@ for epoch in range(EPOCHS):
         for images, labels in train_loader:
             images, labels = images.to(DEVICE), labels.to(DEVICE)
             outputs = model(images)
+            train_loss += criterion(outputs, labels)
             _, predicted = torch.max(outputs, 1)
             total += labels.size(0)
             correct += (predicted == labels).sum().item()
@@ -113,6 +113,7 @@ for epoch in range(EPOCHS):
         for images, labels in test_loader:
             images, labels = images.to(DEVICE), labels.to(DEVICE)
             outputs = model(images)
+            test_loss += criterion(outputs, labels)  
             _, predicted = torch.max(outputs, 1)
             total += labels.size(0)
             correct += (predicted == labels).sum().item()
@@ -121,15 +122,17 @@ for epoch in range(EPOCHS):
 
     # エポックごとの結果を表示
     print(
-        f"Epoch [{epoch+1}/{EPOCHS}], Loss: {running_loss/len(train_loader):.4f}, Train Accuracy: {train_accuracy:.2f}%, Test Accuracy: {test_accuracy:.2f}%"
+        f"Epoch [{epoch+1}/{EPOCHS}], Train Loss: {train_loss/len(train_loader):.4f}, Test Loss: {test_loss/len(test_loader):.4f}, Train Accuracy: {train_accuracy:.2f}%, Test Accuracy: {test_accuracy:.2f}%"
     )
 
     # エポックごとの結果をCSVに保存
     utils.save_epoch_results(
         csv_file,
         epoch,
-        running_loss,
+        train_loss,
+        test_loss,
         train_loader,
+        test_loader,
         train_accuracy,
         test_accuracy,
         epoch_start_time,
@@ -137,8 +140,8 @@ for epoch in range(EPOCHS):
     )
 
     # 最良モデルを保存
-    min_running_loss = utils.save_best_model(
-        model, running_loss, min_running_loss, result_dir
+    min_train_loss = utils.save_best_model(
+        model, train_loss, min_train_loss, result_dir
     )
 
 
