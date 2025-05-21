@@ -129,8 +129,8 @@ for epoch in range(EPOCHS):
     utils.save_epoch_results(
         csv_file,
         epoch,
-        train_loss,
-        test_loss,
+        int(train_loss),
+        int(test_loss),
         train_loader,
         test_loader,
         train_accuracy,
